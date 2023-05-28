@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo Now</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <!-- <style>
+        body, :after, :before, input{
+            margin: 0;
+            box-sizing: border-box;
+        }
+        body{
+            background: #333;
+            color: #000;
+            font-family: sans-serif;
+        }
+        #app{
+            --margin: 2rem;
+            max-width: 767px;
+            height: calc(100vh - 2 * var(--margin));
+            margin: var(--margin) auto;
+            background: #dddddd;
+            border-radius: 1rem;
+            overflow: auto;
+        }
+        #header{
+            text-align: center;
+            overflow: auto;
+            padding: 2rem 0;
+            box-shadow: 0 1px 0 0 #000;
+        }
+        #contents{
+            display: flex;
+            flex-flow: column wrap;
+        }
+        ul{
+            flex: 1 0 auto;
+            list-style: none;
+            margin: 2rem 2rem;
+            padding: 0;
+        }
+        form{
+            flex: 0 0 auto;
+        }
+        li {
+            margin: 1rem 0;
+            font-size: 1.2rem;
+            box-shadow: 0px 0px 0 1px #333;
+            padding: .5rem 1rem;
+            display: block;
+        }
+        .group{
+            display: flex;
+            flex-flow: row wrap;
+            gap: 0px;
+        }
+        .group input{
+            display: block;
+            border-radius: .2rem;
+            padding: .5rem 1rem;
+            flex: 1 0 auto;
+            font-size: 1.2rem;
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+        .group button{
+            display: block;
+            flex: 0 1 auto;
+            padding: 0 1rem;
+            margin-left: -1px;
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+        }
+    </style> -->
+</head>
+<body>
+    <div class="box" id="heading">
+        <h1><%= weekday %></h1>
+    </div>
+
+    <div class="box">
+        <% todoList.map(todo => { %>
+            <div class="item">
+                <input type="checkbox">
+                <p><%= todo %></p>
+            </div>
+        <% }) %>
+
+        <form class="item" action="/" method="post">
+            <input autofocus required type="text" name="task">
+            <button type="submit" name="button">+</button>
+        </form>
+    </div>
+    <!-- <div id="app">
+        <div id="page">
+            <div id="header">
+                <h1>Things TODO Now</h1>
+                <h2>It's <%= weekday %></h2>
+            </div>
+            <div id="contents">
+                <ul>
+                    <% todoList.map(todo => { %>
+                        <li><%= todo %></li>
+                    <% }) %>
+                    <form action="/" method="POST">
+                        <div class="group">
+                            <input autofocus name="task" type="text">
+                            <button type="submit" >+</button>
+                        </div>
+                    </form>
+                </ul>
+            </div>
+        </div>
+    </div> -->
+</body>
+</html>

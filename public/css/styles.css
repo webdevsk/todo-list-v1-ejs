@@ -1,6 +1,6 @@
 :root{
   /* --theme-color: #A683E3; */
-  --theme-color: #FFB74D;
+  --theme-color: 	hsl(36, 100%, 65%);
 }
 html {
   background-color: #E4E9FD;
@@ -11,9 +11,10 @@ html {
   scroll-behavior: smooth;
 }
 
-h1 {
+h1, h2 {
   color: #fff;
   padding: 10px;
+  margin: 0;
 }
 
 .box {
@@ -30,6 +31,7 @@ h1 {
   position: sticky;
   top: 0;
   left: 0;
+  overflow: auto;
   z-index: 1;
 }
 
@@ -108,4 +110,29 @@ footer {
   color: white;
   color: rgba(0, 0, 0, 0.5);
   text-align: center;
+}
+
+/* nav buttons */
+.btn-group {
+  display: flex;
+  flex-flow: row wrap;
+  width: 100%;
+}
+
+.btn {
+  display: block;
+}
+
+.tabbed-btn {
+  flex: 1 1 auto;
+  padding: 1rem 0;
+  text-decoration: none;
+  color: #fff;
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.tabbed-btn.active {
+  /* box-shadow: 0px -1px 0px #33333361; */
+  text-decoration: underline;
 }

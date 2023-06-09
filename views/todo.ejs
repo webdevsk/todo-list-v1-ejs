@@ -10,10 +10,10 @@
 </div>
 
 <div class="box">
-    <% todoList.map(todo => { %>
+    <% todoList.map(({label}) => { %>
         <div class="item">
             <input type="checkbox">
-            <p><%= todo %></p>
+            <p><%= label %></p>
         </div>
     <% }) %>
 

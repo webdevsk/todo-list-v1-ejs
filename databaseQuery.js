@@ -44,3 +44,18 @@ async function postTasks(taskType, task){
 }
 
 exports.postTasks = postTasks
+
+async function deleteTask(taskType, taskId){
+    try {
+        if (taskType === 'HomeTasks'){
+            await HomeTasks.deleteOne({_id: taskId})
+        }
+        if (taskType === 'OfficeTasks'){
+            await OfficeTasks.deleteOne({_id: taskId})
+        }
+    } catch (err) {
+        console.log(err)
+    }
+}
+
+exports.deleteTask = deleteTask

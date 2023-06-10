@@ -34,7 +34,7 @@ h1, h2 {
 }
 
 .box {
-  max-width: 400px;
+  max-width: 425px;
   margin: 50px auto;
   background: white;
   border-radius: 5px;
@@ -72,7 +72,8 @@ input[type="checkbox"] {
   margin: 20px;
 }
 
-p {
+.task-name {
+  flex: 1 1 auto;
   margin: 0;
   padding: 20px;
   font-size: 20px;
@@ -86,6 +87,8 @@ form.list {
 }
 
 button {
+  flex: 0 0 auto;
+  margin-right: 10px;
   min-height: 50px;
   width: 50px;
   border-radius: 50%;
@@ -100,6 +103,7 @@ button {
 }
 
 input[type="text"] {
+  flex: 1 0 auto;
   text-align: center;
   height: 60px;
   top: 10px;
@@ -107,7 +111,6 @@ input[type="text"] {
   background: transparent;
   font-size: 20px;
   font-weight: 200;
-  width: 313px;
 }
 
 input[type="text"]:focus {
@@ -135,6 +138,7 @@ footer {
   display: flex;
   flex-flow: row wrap;
   width: 100%;
+  justify-content: center;
 }
 
 .btn {
@@ -143,7 +147,7 @@ footer {
 
 .tabbed-btn {
   flex: 1 1 auto;
-  padding: 1rem 0;
+  margin: .5rem .5rem;
   text-decoration: none;
   color: #fff;
   font-size: 1.2rem;
@@ -154,3 +158,14 @@ footer {
   /* box-shadow: 0px -1px 0px #33333361; */
   text-decoration: underline;
 }
+
+.delete-task img {
+  max-width: 100%;
+}
+
+.delete-task {
+  max-width: 1rem;
+  flex: 1 0 auto;
+  margin: 20px;
+}
+

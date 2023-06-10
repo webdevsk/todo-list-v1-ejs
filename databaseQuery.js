@@ -1,7 +1,11 @@
 const mongoose = require('mongoose')
 
+
 const categorySchema = new mongoose.Schema({
-    name: String,
+    name: {
+        type: String,
+        required: 1
+    },
 })
 
 const Category = mongoose.model('category', categorySchema)
@@ -21,20 +25,28 @@ const Task = mongoose.model('task', taskSchema)
 
 mongoose.models = {}
 
-exports.task = Task
 
 // exports.category = Category
-getCategoryId('home').then(data => console.log(data))
+
+// getCategoryId('homes').then(ref => console.log(ref))
 async function getCategoryId(categoryName){
     try {
-        const ref = await Category.findOneAndUpdate({name: categoryName}, {}, {upsert:true})
-        return ref.id
+        const ref = await Category.findOne({name: categoryName})
+        // console.log(ref)
+        return ref.id ?? ''
     } catch (error) {
         console.log(error)
     }
 }
 
-exports.getCategoryId = getCategoryId
+
+async function getCategoryList(){
+    try {
+        return await Category.find()
+    } catch (error) {
+        console.log(error)
+    }
+}
 
 async function getTasks(categoryId){
     try {
@@ -44,27 +56,25 @@ async function getTasks(categoryId){
     }
 }
 
-exports.getTasks = getTasks
 
 async function postTask(category, task){
     try {
-        await Task.insertMany([{category: category, label: task}])
+        const catId = await Category.findOneAndUpdate({name: category}, {}, {new: true,upsert: true})
+        await Task.insertMany([{category: catId, label: task}])
     } catch (error) {
         console.log(error)
     }
 }
 
-exports.postTask = postTask
 
 async function deleteTask(taskId){
     try {
-        await Task.deleteOne({_id: taskId})
+        await Task.deleteOne({id: taskId})
     } catch (error) {
         console.log(error)
     }
 }
 
-exports.deleteTask = deleteTask
 
 async function deleteTasks(taskIdArr){
     try {
@@ -74,19 +84,15 @@ async function deleteTasks(taskIdArr){
     }
 }
 
-exports.deleteTasks = deleteTasks
 
 async function updateTask(taskId, taskCompleted){
-    console.log(taskCompleted)
     try {
-        const res = await Task.updateOne({_id: taskId}, {completed: taskCompleted})
-        console.log(res.modifiedCount)
+        await Task.updateOne({_id: taskId}, {completed: taskCompleted})
     } catch (error) {
         console.log(error)
     }
 }
 
-exports.updateTask = updateTask
 
 // Run once to populate empty tasks
 // postprebuiltTasks('648463c23a0d1fadf66b8928')
@@ -116,3 +122,12 @@ async function deleteAll(){
         await Task.deleteMany()
     } catch (error){console.log(error)}
 }
+
+exports.task = Task
+exports.getCategoryId = getCategoryId
+exports.getCategoryList = getCategoryList
+exports.getTasks = getTasks
+exports.postTask = postTask
+exports.deleteTask = deleteTask
+exports.deleteTasks = deleteTasks
+exports.updateTask = updateTask

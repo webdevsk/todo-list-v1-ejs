@@ -3,7 +3,7 @@ const port = process.env.PORT || 3000
 const Date = require('./date')
 const mongoose = require('mongoose')
 const cors = require('cors')
-const {getCategoryId, getTasks, postTask, deleteTask, deleteTasks, updateTask} = require('./databaseQuery')
+const {getCategoryId, getCategoryList, getTasks, postTask, deleteTask, deleteTasks, updateTask} = require('./databaseQuery')
 
 const app = express()
 app.set('view engine', 'ejs')
@@ -19,25 +19,44 @@ app.use(cors(corsOptions))
 mongoose.connect('mongodb://127.0.0.1:27017/todoDB')
 
 app.get('/', async (req, res) => {
-    const weekday = Date.getWeekDay()
-    const date = Date.getDate()
-    const category = 'home'
-    const categoryId = await getCategoryId(category)
-    const homeTasks = await getTasks(categoryId)
-    res.render('todo', {weekday: weekday, date: date, todoList: homeTasks, category: category})
+    res.redirect('/home')
 })
 
-app.post('/', async (req, res) => {
-    const {task, category} = req.body
+app.get('/:pageId', async (req, res) => {
+    const category = req.params.pageId.toLowerCase()
+    const catId = await getCategoryId(category)
+    res.render('todo', {
+        weekday:    Date.getWeekDay(),
+        date:       Date.getDate(),
+        category:   category,
+        categoryList: await getCategoryList(),
+        categoryId: catId,
+        todoList:   await getTasks(catId)
+    })
+})
 
+
+app.post('/:pageId', async (req, res) => {
+    const {task} = req.body
+    const category = req.params.pageId.toLowerCase()
+    // const catId = await getCategoryId(category)
     await postTask(category, task)
-    res.redirect('/')
+    res.redirect('/' + category ?? '')
 })
 
-app.post('/checkStatus', async (req, res) => {
-    const {taskId, completed} = req.body
+app.post('/update/status', async (req, res) => {
+    const {taskId, completed, category} = req.body
     await updateTask(taskId, completed && completed === 'on' ? true : false)
-    res.redirect('/')
+    res.redirect('/' + category ?? '')
+})
+
+app.get('/update/delete', async (req, res) => {
+    const {category, id} = req.query
+    if (id !== '' || id !== '*'){
+        console.log('im here')
+        await deleteTask(id)
+    }
+    res.redirect('/' + category ?? '')
 })
 
 app.listen(port, () => console.log('Server started on port ' + port))

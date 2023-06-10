@@ -2,30 +2,38 @@
 
 <div class="box" id="heading">
     <h1><%= weekday %> <%= date %></h1>
-    <div class="btn-group">
-        <a href="/" title="Home Tasks" class="tabbed-btn btn">Home Tasks</a>
-        <a href="/office" title="Office Tasks" class="tabbed-btn btn">Office Tasks</a>
+    <div id="task-categories" class="btn-group">
+        <% categoryList.map(({name}) => { %>
+            <a href="/<%= name %>"
+                title="<%= name %> Tasks" class="tabbed-btn btn">
+                <%= name %>
+            </a>
+        <% }) %>
     </div>
 </div>
 
 <div class="box">
     <% todoList.map(task => { %>
-        <form action="/checkStatus" method="post">
+        <form action="/update/status" method="post">
             <div class="item">
                 <input type="hidden" name="taskId" value="<%= task._id %>">
+                <input type="hidden" name="category" value="<%= category %>">
                 <input class="" name="completed" onClick="this.form.submit()" type="checkbox"
                 <% if(task.completed){ %>
                     checked
                 <% } %>
                 >
-                <p><%= task.label %></p>
+                <p class="task-name"><%= task.label %></p>
+                <a class="delete-task" href="/update/delete?category=<%= category %>&?id=<%= task._id %>">
+                    <img src="images/bin.png" alt="bin">
+                </a>
             </div>
         </form>
     <% }) %>
 
-    <form class="item" action="/" method="post">
+    <form class="item" action="/<%= category %>" method="post">
         <input autofocus required type="text" name="task">
-        <button type="submit" name="category" value="<%= category %>">+</button>
+        <button type="submit" name="category">+</button>
     </form>
 </div>
 <%- include('footer') -%>

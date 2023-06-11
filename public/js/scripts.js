@@ -4,14 +4,31 @@ navBtns.map(btn => btn.classList.toggle('active', document.title.indexOf(btn.tit
 // const taskCategories = 
 const taskCategories = [...document.querySelector('#task-categories').children]
 taskCategories.map(cat =>  cat.innerText = cat.innerText.charAt(0).toUpperCase() + cat.innerText.slice(1))
-// const chckComp = document.querySelectorAll('.checkCompleted')
-// console.log(chckComp)
 
-// document.addEventListener('change', e => {
-//     if (!e.target.matches('.checkCompleted')) return
-//     console.log(e.target.checked)
-// })
+//modal
+const catDialog = document.querySelector('#catDialog')
+const modalTrigger = document.querySelector('#modalTrigger')
 
-// async function changeTaskStatus(data){
+modalTrigger.addEventListener('click', e => {
+    e.preventDefault()
+    catDialog.showModal()
+})
 
-// }
+catDialog.addEventListener("click", e => {
+    const dialogDimensions = catDialog.getBoundingClientRect()
+    if (
+      e.clientX < dialogDimensions.left ||
+      e.clientX > dialogDimensions.right ||
+      e.clientY < dialogDimensions.top ||
+      e.clientY > dialogDimensions.bottom
+    ) {
+      catDialog.close()
+    }
+})
+
+const catBtn = document.querySelector('#catDialog form')
+catBtn.addEventListener('submit', e=>{
+    e.preventDefault()
+    const newCatName = e.target.querySelector('#newCatName')
+    location.href = '/' + newCatName.value.toLowerCase()
+})

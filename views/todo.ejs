@@ -5,12 +5,24 @@
     <div id="task-categories" class="btn-group">
         <% categoryList.map(({name}) => { %>
             <a href="/<%= name %>"
-                title="<%= name %> Tasks" class="tabbed-btn btn">
+                title="<%= name %> Tasks" 
+                class="tabbed-btn btn"
+            >
                 <%= name %>
             </a>
         <% }) %>
+        <a id="modalTrigger" class="tabbed-btn btn" href="/">New +</a>
     </div>
 </div>
+
+
+<dialog id="catDialog">
+    <form action="" method="get">
+        <h2>Create new category</h2>
+        <input id="newCatName" type="text">
+        <button hidden type="submit">Go</button>
+    </form>
+</dialog>
 
 <div class="box">
     <% todoList.map(task => { %>
@@ -24,7 +36,7 @@
                 <% } %>
                 >
                 <p class="task-name"><%= task.label %></p>
-                <a class="delete-task" href="/update/delete?category=<%= category %>&?id=<%= task._id %>">
+                <a class="delete-task" href="/update/delete?category=<%= category %>&id=<%= task._id %>">
                     <img src="images/bin.png" alt="bin">
                 </a>
             </div>
@@ -32,7 +44,7 @@
     <% }) %>
 
     <form class="item" action="/<%= category %>" method="post">
-        <input autofocus required type="text" name="task">
+        <input autofocus required type="text" id="addTask" name="task">
         <button type="submit" name="category">+</button>
     </form>
 </div>

@@ -1,5 +1,6 @@
 const express = require('express')
 const port = process.env.PORT || 3000
+require('dotenv').config()
 const Date = require('./date')
 const mongoose = require('mongoose')
 const cors = require('cors')
@@ -16,7 +17,11 @@ const corsOptions = {
 app.use(cors(corsOptions))
 
 //One time connect to DB
-mongoose.connect('mongodb://127.0.0.1:27017/todoDB')
+let DBURI
+process.env.APP_ONLINE === 'true'
+? DBURI = process.env.DB_URI
+: DBURI = `mongodb://127.0.0.1:27017/todoDB`
+mongoose.connect(DBURI)
 
 app.get('/', async (req, res) => {
     res.redirect('/home')
@@ -53,7 +58,6 @@ app.post('/update/status', async (req, res) => {
 app.get('/update/delete', async (req, res) => {
     const {category, id} = req.query
     if (id === '' || id === '*') res.redirect('/' + category ?? '')
-
     const result = await deleteTask(category, id)
     result > 0 ? res.redirect('/') : res.redirect('/' + category ?? '')
 })

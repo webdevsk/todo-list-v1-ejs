@@ -60,21 +60,24 @@ async function getTasks(categoryId){
 async function postTask(category, task){
     try {
         const catId = await Category.findOneAndUpdate({name: category}, {}, {new: true,upsert: true})
-        await Task.insertMany([{category: catId, label: task}])
-    } catch (error) {
+        const result = await Task.insertMany([{category: catId, label: task}])
+        console.log(result)
+        } catch (error) {
         console.log(error)
     }
 }
 
 async function deleteTask(categoryName, taskId){
     try {
-        await Task.deleteOne({id: taskId})
+        const result = await Task.deleteOne({_id: taskId})
+        console.log('Delete One:', result)
         //Delete whole category when there are no more tasks associated with it.
         if (categoryName === 'home') return
         const categoryId = await Category.findOne({name: categoryName})
         const tasksInCategory = await Task.find({ category: categoryId });
         if (tasksInCategory.length === 0) {
             const result = await Category.deleteOne({ _id: categoryId })
+            console.log('Delete category:', result)
             return result.deletedCount
         }
     } catch (error) {
@@ -94,7 +97,8 @@ async function deleteTasks(taskIdArr){
 
 async function updateTask(taskId, taskCompleted){
     try {
-        await Task.updateOne({_id: taskId}, {completed: taskCompleted})
+        const result = await Task.updateOne({_id: taskId}, {completed: taskCompleted})
+        console.log(result)
     } catch (error) {
         console.log(error)
     }

@@ -11,7 +11,7 @@ app.set('view engine', 'ejs')
 app.use(express.urlencoded({extended: 'true'}))
 app.use(express.static('public'))
 const corsOptions = {
-    origin: 'https://localhost:3000/',
+    origin: ['https://localhost:3000/', 'https://todolistv1ejs.onrender.com'],
     optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
   }
 app.use(cors(corsOptions))

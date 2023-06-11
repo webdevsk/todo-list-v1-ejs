@@ -32,8 +32,8 @@ mongoose.models = {}
 async function getCategoryId(categoryName){
     try {
         const ref = await Category.findOne({name: categoryName})
+        return ref?.id
         // console.log(ref)
-        return ref.id ?? ''
     } catch (error) {
         console.log(error)
     }
@@ -66,15 +66,22 @@ async function postTask(category, task){
     }
 }
 
-
-async function deleteTask(taskId){
+async function deleteTask(categoryName, taskId){
     try {
         await Task.deleteOne({id: taskId})
+        //Delete whole category when there are no more tasks associated with it.
+        if (categoryName === 'home') return
+        const categoryId = await Category.findOne({name: categoryName})
+        const tasksInCategory = await Task.find({ category: categoryId });
+        if (tasksInCategory.length === 0) {
+            const result = await Category.deleteOne({ _id: categoryId })
+            return result.deletedCount
+        }
     } catch (error) {
         console.log(error)
     }
 }
-
+  
 
 async function deleteTasks(taskIdArr){
     try {

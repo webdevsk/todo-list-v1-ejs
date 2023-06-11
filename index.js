@@ -52,11 +52,10 @@ app.post('/update/status', async (req, res) => {
 
 app.get('/update/delete', async (req, res) => {
     const {category, id} = req.query
-    if (id !== '' || id !== '*'){
-        console.log('im here')
-        await deleteTask(id)
-    }
-    res.redirect('/' + category ?? '')
+    if (id === '' || id === '*') res.redirect('/' + category ?? '')
+
+    const result = await deleteTask(category, id)
+    result > 0 ? res.redirect('/') : res.redirect('/' + category ?? '')
 })
 
 app.listen(port, () => console.log('Server started on port ' + port))
